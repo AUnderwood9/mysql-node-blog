@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
     // res.send(req.body);
     // res.send({title: req.body.title, content: req.body.content});
     // res.send(blogTable.insert(req.body));
-    // blogTable.insert({title: req.body.title, content: req.body.content})
+    // blogTable.insert(setToSend)
     // .then((data) => {
     //     return data.id;
     // })
@@ -55,6 +55,21 @@ router.post('/', (req, res) => {
     //     console.log(err);
     //     res.send(400);
     // })
+
+        tagTable.getAll()
+        .then((data) => {
+            // console.log(data);
+            let dataSet = data.map((item) => {
+                return {id: item.id, title: item.name};
+            })
+            let tagId = FilterForIds(dataSet, req.body.tag);
+            // res.send(tagId);
+            console.log(dataSet);
+            res.send(tagId.toString());
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 
 })
 

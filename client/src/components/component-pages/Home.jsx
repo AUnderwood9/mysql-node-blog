@@ -40,7 +40,7 @@ class Home extends Component{
         }
         else{
             console.log("Title: ", this.state.title, "Content: ", this.state.content, "Tags: ", this.state.tag);
-            fetch(url, {
+            fetch(`/api/blogs/`, {
                 method: 'POST',
                 body: JSON.stringify({title: this.state.title, content: this.state.content, tag: this.state.tag}), 
                 headers: new Headers({

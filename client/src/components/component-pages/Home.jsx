@@ -7,8 +7,56 @@ class Home extends Component{
     constructor(props){
         super(props)
 
-        this.state = { blogList: [] };
+        this.state = { blogList: [],
+            title: "",
+            content: "",
+            tag: "" };
+
+        this.onBlogInputChange = this.onBlogInputChange.bind(this);
+        this.handleInputOnBtnClick = this.handleInputOnBtnClick.bind(this);
     }
+
+    onBlogInputChange(event){
+        // console.log(event.target.id);
+        switch(event.target.id){
+            case "title-input":
+                // console.log("title", event.target.value);
+                this.setState({title: event.target.value});
+            break;
+            case "content-input":
+                // console.log("content", event.target.value);
+                this.setState({content: event.target.value});
+            break;
+            case "tag-input":
+                // console.log("tag", event.target.value);
+                this.setState({tag: event.target.value});
+            break;
+        }
+    }
+
+    handleInputOnBtnClick(event){
+        if(this.state.title.length < 1 || this.state.content.length < 1 || this.state.tag < 1){
+            console.log("Invalid input, put something in the input fields!");
+        }
+        else{
+            console.log("Title: ", this.state.title, "Content: ", this.state.content, "Tags: ", this.state.tag);
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({title: this.state.title, content: this.state.content, tag: this.state.tag}), 
+                headers: new Headers({
+                  'Content-Type': 'application/json'
+                })
+            })
+            .then((result) => {
+                res.sendStatus(201);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(400);
+            });
+        }
+    }
+
 
     componentDidMount(){
         console.log("mounting");
@@ -34,14 +82,12 @@ class Home extends Component{
             position: "fixed"
         };
 
-        console.log(this.state);
         return(
             <div className="row">
                 <section id="blog-list" className="col-6">
-                    {/* <h1>Blog List</h1> */}
                         {
                             this.state.blogList.map((item,index) => {
-                                console.log(item.title, item.content, item._created);
+                                // console.log(item.title, item.content, item._created);
                                 return (
                                     <Fragment key={`blog-listing-${index}`}>
                                         <Blog blogContent={item.content} title={item.title} timeStamp={item._created}/>
@@ -50,11 +96,10 @@ class Home extends Component{
                                 );
                             })
                         }
-                    {/* <Blog /> */}
                 </section>
 
                 <section id="inputs" className="col-4">
-                        <BlogInputs />
+                        <BlogInputs onBlogInputChange={this.onBlogInputChange} btnHandler={this.handleInputOnBtnClick}/>
                 </section>
             </div>
         );

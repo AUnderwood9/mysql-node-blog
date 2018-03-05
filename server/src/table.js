@@ -51,8 +51,15 @@ class Table {
     }
 
     delete(id) {
-        let sql = `DELETE FROM ${this.tableName} WHERE id = ${id}`;
-        return executeQuery(sql);
+        if(this.tableName !== "blogtags"){
+            let sql = `DELETE FROM ${this.tableName} WHERE id = ${id}`;
+            return executeQuery(sql);
+        }
+        else{
+            let sql = `DELETE FROM ${this.tableName} WHERE blogid = ${id}`;
+            return executeQuery(sql);
+        }
+        
     }
 }
 

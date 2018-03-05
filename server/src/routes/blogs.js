@@ -91,4 +91,35 @@ router.post('/', (req, res) => {
     })
 });
 
+router.delete("/:id", (req, res, next) => {
+
+    blogTagTable.delete(req.params.id)
+    .then((res) => {
+        blogTable.delete(req.params.id)
+        .then((data) => {
+            res.sendStatus(200);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(400);
+        });
+    })
+    .catch((err) => {
+        console.log(err)
+        res.sendStatus(400);
+    })
+});
+
+router.put("/:id", (req, res, next) => {
+    let setToSend = {content: req.body.content};
+    blogTable.update(req.params.id, setToSend)
+    .then((response) => {
+        res.sendStatus(200);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.sendStatus(400);
+    })
+})
+
 export default router;

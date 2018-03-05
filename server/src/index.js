@@ -1,4 +1,5 @@
 import { join } from 'path';
+import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import routes from './routes';
@@ -9,6 +10,7 @@ const CLIENT_PATH = join(__dirname, '../../client');
 let app = express();
 
 app.use(morgan('dev'));
+app.use(cors());
 app.use(express.static(CLIENT_PATH));
 app.use(express.json());
 

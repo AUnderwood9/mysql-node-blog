@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Blog from "../component-pieces/BlogView";
 import BlogInputs from "../component-pieces/BlogInputs";
+import "../index.scss";
+import "./Home.scss";
 
 class Home extends Component{
     constructor(props){
@@ -47,11 +49,7 @@ class Home extends Component{
                   'Content-Type': 'application/json'
                 })
             })
-            .then((result) => {
-                res.sendStatus(201);
-            })
             .catch((err) => {
-                console.log(err);
                 res.sendStatus(400);
             });
         }
@@ -82,23 +80,33 @@ class Home extends Component{
             position: "fixed"
         };
 
+        let blogText;
+
         return(
-            <div className="row">
+            <div className="row homeContainer">
                 <section id="blog-list" className="col-6">
                         {
                             this.state.blogList.map((item,index) => {
                                 // console.log(item.title, item.content, item._created);
+                                if(item.content.length > 240 && typeof item.content === 'string'){
+                                    // truncate text if it is too long
+                                    blogText= item.content.slice(0,240).trim() + " ...";
+                                }
+                                else{
+                                    blogText = item.content;
+                                }
+                                
                                 return (
                                     <Fragment key={`blog-listing-${index}`}>
-                                        <Blog blogContent={item.content} title={item.title} timeStamp={item._created}/>
-                                        <Link to={`/${item.id}`}>Get my Info</Link>
+                                        <Blog blogContent={blogText} title={item.title} timeStamp={item._created}/>
+                                        <Link className="btn btn-sm btn-outline-secondary" to={`/${item.id}`}>Get my Info</Link>
                                     </Fragment>
                                 );
                             })
                         }
                 </section>
 
-                <section id="inputs" className="col-4">
+                <section id="inputs" className="col-6">
                         <BlogInputs onBlogInputChange={this.onBlogInputChange} btnHandler={this.handleInputOnBtnClick}/>
                 </section>
             </div>

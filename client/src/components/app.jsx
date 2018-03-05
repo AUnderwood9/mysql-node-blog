@@ -10,12 +10,12 @@ class Navigation extends Component {
     render() {
         return (
             <Router>
-                <Fragment>
+                <div className="container ml-2 mr-2">
                     <Switch>
                         <Route exact path="/" component={BlogListHome} />
                         <Route path="/:id" component={BlogInfo} />
                     </Switch>
-                </Fragment>
+                </div>
             </Router>
         )
     }

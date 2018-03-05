@@ -44,10 +44,13 @@ let filterForIds = (setToFilter, setToFind) => {
   }
   else{
   	let result = setToFilter.filter((item) => {
+        // console.log("not an array", item);
     	return item.title === setToFind;
-    })
+    });
+
+    console.log(result);
     
-		idSet = result[0].id;
+		idSet = result.length === 0 ? 0 : result[0].id;
   }
   
   return idSet;

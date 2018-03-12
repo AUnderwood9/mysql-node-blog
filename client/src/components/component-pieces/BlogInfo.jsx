@@ -60,8 +60,8 @@ class BlogInfo extends Component{
                 })
             })
             .then((data) => {
-                this.setState({editing: false});
-                this.props.history.push(`/${this.props.match.params.id}`);
+                // this.setState({editing: false});
+                this.props.history.push(`/`);
             })
             .catch((err) => {
                 console.log(err);

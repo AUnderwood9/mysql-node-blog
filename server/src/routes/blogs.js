@@ -32,7 +32,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     let tagSet1 = ["web-enabled", "Multi-lateral", "orchestration", "komposer", "pgadmin"];
     let setToSend = {title: req.body.title, content: req.body.content};
-    console.log(req.body);
     blogTable.insert(setToSend)
     .then((data) => {
         return data.id;
@@ -112,6 +111,7 @@ router.delete("/:id", (req, res, next) => {
 
 router.put("/:id", (req, res, next) => {
     let setToSend = {content: req.body.content};
+    console.log("Put request", req.body);
     blogTable.update(req.params.id, setToSend)
     .then((response) => {
         res.sendStatus(200);
